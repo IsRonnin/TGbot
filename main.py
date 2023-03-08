@@ -28,8 +28,9 @@ home_work_l = {"Дз за 1 модуль": "https://github.com/IsRonnin/Module_1
                "Игра за 1 модуль": "https://github.com/IsRonnin/Game"}
 
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start'])        
 def start(message):
+    print("Начал", message.from_user.first_name)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     [markup.add(types.KeyboardButton(key)) for key in commands.keys()]
     bot.send_video(message.chat.id, 'https://media.giphy.com/media/xT77XZrTKOxycjaYvK/giphy.gif')
@@ -40,9 +41,12 @@ def func(message):
         answ = commands[message.text]
         if type(answ) is str:
             bot.send_message(message.chat.id, text=answ)
+            print(message.text, message.from_user.first_name)
         else:
             answ(message)
+            print(message.text, message.from_user.first_name)
     except Exception as e:
+        print("Ошибся запросом", message.from_user.first_name)
         bot.send_message(message.chat.id, text="На такую комманду я не запрограммировал..")
 
 
@@ -74,5 +78,5 @@ def func(message):
     else:
         bot.send_message(message.chat.id, text="На такую комманду я не запрограммировал..")
 '''
-bot.polling(none_stop=True)
+bot.polling(none_stop=True, interval=0.5, timeout=20)
 
